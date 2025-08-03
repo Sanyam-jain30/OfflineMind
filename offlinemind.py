@@ -14,7 +14,6 @@ from threading import Thread
 HOTKEY = keyboard.Key.f9
 OLLAMA_API_URL = "http://localhost:3000/api/generate" # Ollama API endpoint (run using command 'OLLAMA_HOST=127.0.0.1:3000 ollama serve')
 OLLAMA_MODEL = "gemma3n" # Model name
-tts_engine = None
 root = None
 
 # Store the last selected text to avoid re-fetching on language change
@@ -53,14 +52,12 @@ def speak_text(text):
     Initializes a text-to-speech engine and speaks the given text.
     This runs on a separate thread to avoid blocking the main script.
     """
-    global tts_engine
-    if not tts_engine:
-        try:
-            tts_engine = pyttsx3.init()
-            tts_engine.setProperty('rate', 180)
-        except ImportError:
-            print("pyttsx3 not installed. Text-to-speech will be disabled.")
-            return
+    try:
+        tts_engine = pyttsx3.init()
+        tts_engine.setProperty('rate', 180)
+    except ImportError:
+        print("pyttsx3 not installed. Text-to-speech will be disabled.")
+        return
 
     def run_speech():
         tts_engine.say(text)
