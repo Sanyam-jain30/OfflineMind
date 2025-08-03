@@ -1,0 +1,5 @@
+requests 
+pyperclip 
+pyautogui 
+pyttsx3 
+pynput
